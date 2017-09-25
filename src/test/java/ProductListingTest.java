@@ -72,53 +72,8 @@ public class ProductListingTest {
                 "            }\n" +
                 "        ]");
 
-        Date refDate = getDateFor("2017-09-23");
-        assertEquals(2, productInventory.getActiveProductsCount(refDate));
-    }
-
-    @Test
-    public void should_get_active_products_for_day_as_per_category() throws IOException, ParseException {
-        ProductInventory productInventory = new ProductInventory("[\n" +
-                "            {\n" +
-                "                \"endDate\": \"2017-04-04\",\n" +
-                "                \"startDate\": \"2017-01-30\",\n" +
-                "                \"price\": 260,\n" +
-                "                \"category\": \"Kitchen\",\n" +
-                "                \"name\": \"Stainless Steel Cutter Peeler Tool Pineapple Seed Clip Home Kitchen Gadgets\"\n" +
-                "            },\n" +
-                "            {\n" +
-                "                \"endDate\": \"2017-12-04\",\n" +
-                "                \"startDate\": \"2017-01-30\",\n" +
-                "                \"price\": 149,\n" +
-                "                \"category\": \"Kitchen\",\n" +
-                "                \"name\": \"20.5cm Fruit Cutter Chef Kitchen Cutlery Knife Knives Choice - 07\"\n" +
-                "            },\n" +
-                "            {\n" +
-                "                \"endDate\": null,\n" +
-                "                \"startDate\": \"2017-01-30\",\n" +
-                "                \"price\": 1737,\n" +
-                "                \"category\": \"Electronics\",\n" +
-                "                \"name\": \"LETV LeEco Le 2 32GB Rose Gold\"\n" +
-                "            },\n" +
-                "            {\n" +
-                "                \"endDate\": null,\n" +
-                "                \"startDate\": \"2018-01-30\",\n" +
-                "                \"price\": 999,\n" +
-                "                \"category\": \"Electronics\",\n" +
-                "                \"name\": \"Nokia 1100\"\n" +
-                "            },\n" +
-                "            {\n" +
-                "                \"endDate\": null,\n" +
-                "                \"startDate\": \"2018-01-30\",\n" +
-                "                \"price\": 499,\n" +
-                "                \"category\": \"Furniture\",\n" +
-                "                \"name\": \"Homefab India Set of 2  Beautiful Marble Plain Black Curtains (HF342)\"\n" +
-                "            }\n" +
-                "        ]");
-
-        Date date = getDateFor("2017-09-23");
-        assertEquals(1, productInventory.getActiveProductsCount(date, new Category("Electronics")));
-        assertEquals(1, productInventory.getActiveProductsCount(date, new Category("Kitchen")));
+        Date referenceDate = getDateFor("2017-09-23");
+        assertEquals(2, productInventory.getActiveProductsCount(referenceDate));
     }
 
     @Test
@@ -166,7 +121,8 @@ public class ProductListingTest {
             put(new Category("Electronics"), 1l);
             put(new Category("Kitchen"), 1l);
         }};
-        assertEquals(availableCategories, productInventory.getActiveCountForCategoriesOn(getDateFor("2017-09-23")));
+        Date referenceDate = getDateFor("2017-09-23");
+        assertEquals(availableCategories, productInventory.getActiveCountForCategoriesOn(referenceDate));
     }
 
     @Test
@@ -209,7 +165,8 @@ public class ProductListingTest {
                 "            }\n" +
                 "        ]");
 
-        assertEquals(1886, productInventory.getTotalPriceForActiveProducts(getDateFor("2017-09-23")));
+        Date referenceDate = getDateFor("2017-09-23");
+        assertEquals(1886, productInventory.getTotalPriceForActiveProducts(referenceDate));
     }
 
     private Date getDateFor(String now) throws ParseException {

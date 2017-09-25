@@ -29,15 +29,15 @@ public class ProductInventory {
         return getActiveProducts(date).size();
     }
 
-    public long getActiveProductsCount(Date date, Category category) {
-        Set<Product> filteredProducts = getActiveProducts(date).stream()
+    private long getActiveProductsCount(Date date, Category category) {
+        List<Product> filteredProducts = getActiveProducts(date).stream()
                                                                .filter(p -> p.belongsTo(category))
-                                                               .collect(Collectors.toSet());
+                                                               .collect(Collectors.toList());
         return filteredProducts.size();
     }
 
-    private Set<Product> getActiveProducts(Date date) {
-        return products.stream().filter(p -> p.isActiveFor(date)).collect(Collectors.toSet());
+    private List<Product> getActiveProducts(Date date) {
+        return products.stream().filter(p -> p.isActiveFor(date)).collect(Collectors.toList());
     }
 
     private Set<Category> getAllCategories() {
@@ -54,9 +54,9 @@ public class ProductInventory {
         return activeProductsPerCategory;
     }
 
-    public long getTotalPriceForActiveProducts(Date date) throws ParseException {
-        Set<Product> activeProducts = getActiveProducts(date);
-        Optional<Product> totalPrice = activeProducts.stream().reduce((a, b) -> a.addPricesWith(b));
-        return totalPrice.isPresent() ? totalPrice.get().getPrice() : 0l;
+    public int getTotalPriceForActiveProducts(Date date) throws ParseException {
+        List<Product> activeProducts = getActiveProducts(date);
+        Optional<Product> totalPrice = activeProducts.stream().reduce(Product::addPricesWith);
+        return totalPrice.map(Product::getPrice).orElse(0);
     }
 }
