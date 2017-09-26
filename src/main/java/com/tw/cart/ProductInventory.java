@@ -29,21 +29,6 @@ public class ProductInventory {
         return getActiveProducts(date).size();
     }
 
-    private long getActiveProductsCount(Date date, Category category) {
-        List<Product> filteredProducts = getActiveProducts(date).stream()
-                                                               .filter(p -> p.belongsTo(category))
-                                                               .collect(Collectors.toList());
-        return filteredProducts.size();
-    }
-
-    private List<Product> getActiveProducts(Date date) {
-        return products.stream().filter(p -> p.isActiveFor(date)).collect(Collectors.toList());
-    }
-
-    private Set<Category> getAllCategories() {
-        return products.stream().map(Product::getCategory).collect(Collectors.toSet());
-    }
-
     public Map<Category, Long> getActiveCountForCategoriesOn(Date date) {
         Set<Category> allCategories = getAllCategories();
         Map<Category, Long> activeProductsPerCategory = new HashMap<>();
@@ -58,5 +43,24 @@ public class ProductInventory {
         List<Product> activeProducts = getActiveProducts(date);
         Optional<Product> totalPrice = activeProducts.stream().reduce(Product::addPricesWith);
         return totalPrice.map(Product::getPrice).orElse(0);
+    }
+
+    private long getActiveProductsCount(Date date, Category category) {
+        List<Product> filteredProducts = getActiveProducts(date).stream()
+                .filter(p -> p.belongsTo(category))
+                .collect(Collectors.toList());
+        return filteredProducts.size();
+    }
+
+    private List<Product> getActiveProducts(Date date) {
+        return products.stream()
+                .filter(p -> p.isActiveFor(date))
+                .collect(Collectors.toList());
+    }
+
+    private Set<Category> getAllCategories() {
+        return products.stream()
+                       .map(Product::getCategory)
+                       .collect(Collectors.toSet());
     }
 }

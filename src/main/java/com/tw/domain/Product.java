@@ -83,15 +83,4 @@ public class Product {
     public int hashCode() {
         return Objects.hash(endDate, startDate, price, name, category);
     }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "endDate=" + endDate +
-                ", startDate=" + startDate +
-                ", price=" + price +
-                ", name='" + name + '\'' +
-                ", category='" + category + '\'' +
-                "} \n";
-    }
 }
